@@ -5,21 +5,17 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Conheça os modelos de luxo em destaque da Velour Motors.">
-        <meta name="author" content="Caue Yamamoto and Ana Teacher">
+        <meta name="author" content="Caue Kazuo Yamamoto e Ana Clara Ceolis">
             <title>Velour Motors - Exibição de Modelos de Luxo</title>
         <link rel="stylesheet" href="style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
     </head>
     <body>
-        <aside class="sideabr" id="sidebar" aria-label="Menu Lateral">
+        <aside class="sidebar" id="sidebar" aria-label="Menu Lateral">
             <nav class="navbar" id="navbar">
-                <a class="captura-brand" href="index.html" aria-label="Início">
-                    <p>Início</p>
-                </a>
-                <a class="capture-brand" href="veiculos.html" aria-label="Veiculos">
-                    <p>Veículos</p>
-                </a>
+                <a class="capture-brand" href="index.html">Início</a>
+                <a class="capture-brand" href="veiculos.html">Veículos</a>
             </nav>
         </aside>
         <main>
@@ -27,9 +23,9 @@
                 <a class="capture-brand" href="index.html" aria-label="Voltar ao início">
                     <img src="images/logo.png" alt="Logo da Velour Motors" width="164" height="100">
                 </a>
-                <input class="input" id="busca" type="search" placeholder="Busque seu Carro dos Sonhos..." autocomplete="off">
+                <input class="input" id="busca" name="busca" type="search" aria-label="Buscar veículos" placeholder="Busque seu carro dos sonhos..." autocomplete="off">
             </header>
-            <section class="hero" aria-label="tituloPrincipal">
+            <section class="hero" aria-label="Destaque principal">
                 <div class="hero-conteudo">
                     <p class="destaque">Velour Motors</p>
                         <h1 id="tituloPrincipal">Encontre o carro dos seus sonhos</h1>
@@ -37,7 +33,7 @@
                     <a class="botao" href="#modelos">Ver modelos</a>
                 </div>
             </section>
-            <section class="catalogo" id="modelos" aria-label="titulo-modelos">
+            <section class="catalogo" id="modelos" aria-label="Catálogo de modelos">
                 <h2 id="tituloModelos">Modelos em destaque</h2>
                     <p class="intro">Explore nossa seleção de veículos de luxo.</p>
                         <div class="grade">
@@ -84,6 +80,7 @@
                                 </div>
                             </article>
                     </div>
+                <p id="semResultados" class="sem-resultados" hidden>Nenhum modelo encontrado.</p>
             </section>
         </main>
         <footer>
@@ -92,5 +89,29 @@
                 <p>Cauê Kazuo Yamamoto e Ana Clara Ceolis</p>
             </div>
         </footer>
+        <script>
+            const busca = document.getElementById('busca');
+            const cards = document.querySelectorAll('.grade .card');
+            const semResultados = document.getElementById('semResultados');
+
+            const normalizar = (texto) =>
+                texto.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+            busca.addEventListener('input', () => {
+                const termo = normalizar(busca.value.trim());
+                let visiveis = 0;
+
+                cards.forEach((card) => {
+                    const titulo = normalizar(card.querySelector('h3').textContent);
+                    const descricao = normalizar(card.querySelector('p').textContent);
+                    const combina = titulo.includes(termo) || descricao.includes(termo);
+
+                    card.hidden = !combina;
+                    if (combina) visiveis++;
+                });
+
+                semResultados.hidden = visiveis > 0;
+            });
+        </script>
     </body>
 </html>
