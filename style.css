@@ -10,7 +10,7 @@ body {
 
 [hidden] { display: none; }
 
-/* Menu lateral */
+/* Sidebar */
 .sidebar {
     position: fixed;
     top: 0;
